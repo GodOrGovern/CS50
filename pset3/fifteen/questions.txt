@@ -1,0 +1,4 @@
+0. It allows square dimensions from 3x3 up to (and including) 9x9
+1. The game board is represented by an array
+2. The "greet" function is used to greet players at the beginning of the game
+3. I need to implement "init", "move", "draw", and "won"
