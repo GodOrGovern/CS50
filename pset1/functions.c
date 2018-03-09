@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <string.h>
-#include <limits.h>
+#include <stdbool.h>
 #include <stdlib.h>
-
 #include "functions.h"
+
+#define INT_MAX 2,147,483,647
+#define UINT_MAX 4,294,967,295
 
 char * Get_String(void)
 {
