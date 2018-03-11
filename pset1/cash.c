@@ -1,31 +1,18 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include "../extra/functions.h"
 
 int main(void)
 {
     float change = 0;
-    int okay = 0;
-
-    // prompts until user inputs positive number
-    while (!okay)
+    
+    do
     {
-        char n_input[22];
         printf("Change owed: ");
-        fflush(stdout);
-
-        if (fgets(n_input, sizeof n_input, stdin))
-        {
-            char *chk = NULL;
-            change = strtof(n_input, &chk);
-
-            if ((isspace(*chk) || *chk == 0) && change >= 0)
-            {
-                okay = 1;
-            }
-        }
+        change = Get_Float();
     }
+    while(change < 0);
 
     int cents = round(change * 100);
     int coins[3] = {25, 10, 5};
