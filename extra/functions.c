@@ -6,6 +6,7 @@
 
 #define INT_MAX 2147483647
 #define UINT_MAX 4294967295
+#define FLT_MAX 3.40282346638528859811704183484516925e+38F
 #define LLONG_MAX 9223372036854775807
 
 char * Get_String(void)
@@ -86,6 +87,31 @@ int Get_Int(void)
     }
 }
 
+float Get_Float(void)
+{
+    while (true)
+    {
+        char * line = Get_String();
+        if (line == NULL)
+        {
+            return FLT_MAX;
+        }
+
+        char c; 
+        float f;
+        if (sscanf(line, " %f %c", &f, &c) == 1)
+        {
+            free(line);
+            return f;
+        }
+
+        else
+        {
+            free(line);
+            printf("Retry: ");
+        }
+    }
+}
 
 long long Get_LongLong(void)
 {
