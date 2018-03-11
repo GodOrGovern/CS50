@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "../include/functions.h"
+#include "functions.h"
 
 #define INT_MAX 2147483647
 #define UINT_MAX 4294967295
