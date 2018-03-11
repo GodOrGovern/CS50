@@ -1,47 +1,41 @@
-#include <cs50.h>
 #include <stdio.h>
 #include <string.h>
+#include "../extra/functions.h"
 
 int main(void)
 {
-    check:
-    printf("Height: ");
-    int height = get_int();
-    int row = 1;
-    int count = 1;
-
-    if (height > 0 && height <= 23)
+    int height;
+    do
     {
-        for (row = 1; row - 1 < height; row++)
+		printf("Height: ");
+		height = Get_Int();
+
+        if (height == 0)
         {
-            for (count = 1; count - 1 < height - row; count++ )
-            {
-                printf(" ");
-            }
-
-            for (count = 1; count - 1 < row; count++)
-            {
-                printf("#");
-            }
-
-            printf("  ");
-
-            for (count = 1; count - 1 < row; count++)
-            {
-                printf("#");
-            }
-
-            printf("\n");
+            return 0;
         }
-    }
+	}
+	while (height < 1 || height > 23);
 
-    else if (height == 0)
+    for (int row = 1; row - 1 < height; row++)
     {
+        for (int i = 1; i - 1 < height - row; i++ )
+        {
+            printf(" ");
+        }
+
+        for (int j = 1; j - 1 < row; j++)
+        {
+            printf("#");
+        }
+
+        printf("  ");
+
+        for (int k = 1; k - 1 < row; k++)
+        {
+            printf("#");
+        }
+
         printf("\n");
-    }
-
-    else
-    {
-        goto check;
     }
 }

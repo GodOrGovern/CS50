@@ -1,31 +1,12 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include "../extra/functions.h"
 
 int main(void)
 {
-    long long n_credit;
-    int valid = 0;
-
-    // prompts until user inputs number
-    do
-    {
-        char n_input[22];
-        printf("Credit Card Number: ");
-
-        if (fgets(n_input, sizeof n_input, stdin))
-        {
-            char *chk = NULL;
-            n_credit = strtoll(n_input, &chk, 10);
-
-            if (isspace(*chk) || *chk == 0)
-            {
-                valid = 1;
-            }
-        }
-    }
-    while (valid != 1);
+    printf("Credit Card Number: ");
+    long long n_credit = Get_LongLong();
 
     // gets length of input and tests for validity
     int n_digits = floor(log10(llabs(n_credit))) + 1;
