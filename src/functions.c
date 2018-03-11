@@ -2,10 +2,11 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "functions.h"
+#include "../include/functions.h"
 
-#define INT_MAX 2,147,483,647
-#define UINT_MAX 4,294,967,295
+#define INT_MAX 2147483647
+#define UINT_MAX 4294967295
+#define LLONG_MAX 9223372036854775807
 
 char * Get_String(void)
 {
@@ -69,8 +70,36 @@ int Get_Int(void)
             return INT_MAX;
         }
 
-        int n; char c;
+        int n; 
+        char c;
         if (sscanf(line, " %d %c", &n, &c) == 1)
+        {
+            free(line);
+            return n;
+        }
+
+        else
+        {
+            free(line);
+            printf("Retry: ");
+        }
+    }
+}
+
+
+long long Get_LongLong(void)
+{
+    while (true)
+    {
+        char * line = Get_String();
+        if (line == NULL)
+        {
+            return LLONG_MAX;
+        }
+
+        char c;
+        long long n; 
+        if (sscanf(line, " %lld %c", &n, &c) == 1)
         {
             free(line);
             return n;
