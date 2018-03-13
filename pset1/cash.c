@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include "../extra/functions.h"
+#include <cs50.h>
 
 int main(void)
 {
@@ -9,7 +9,7 @@ int main(void)
     do
     {
         printf("Change owed: ");
-        change = Get_Float();
+        change = get_float();
     }
     while (change < 0);
 

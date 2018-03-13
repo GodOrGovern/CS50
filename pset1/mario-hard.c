@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "../extra/functions.h"
+#include <cs50.h>
 
 int main(void)
 {
@@ -8,7 +8,7 @@ int main(void)
     do
     {
 		printf("Height: ");
-		height = Get_Int();
+		height = get_int();
 
         if (height == 0)
         {

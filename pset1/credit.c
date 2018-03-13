@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include "../extra/functions.h"
+#include <cs50.h>
 
 int main(void)
 {
     printf("Credit Card Number: ");
-    long long n_credit = Get_LongLong();
+    long long n_credit = get_long_long();
 
     // gets length of input and tests for validity
     int n_digits = floor(log10(llabs(n_credit))) + 1;
