@@ -14,6 +14,7 @@ int main(void)
     }
     while(change < 0);
 
+    // array with with values for each coin (in cents)
     int cents = round(change * 100);
     int coins[3] = {25, 10, 5};
     int minimum = 0;
