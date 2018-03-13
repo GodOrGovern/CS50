@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -Wextra  
+CFLAGS = -g -Wall -Wextra -std=c99
 INCS = -Iextra
 LIBS = -Lextra
 LIBFLAG = -lfunc -lm
