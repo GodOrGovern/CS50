@@ -6,13 +6,12 @@
 int main(void)
 {
     float change = 0;
-    
     do
     {
         printf("Change owed: ");
         change = Get_Float();
     }
-    while(change < 0);
+    while (change < 0);
 
     // array with with values for each coin (in cents)
     int cents = round(change * 100);
