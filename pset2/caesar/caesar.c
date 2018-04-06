@@ -4,90 +4,73 @@
 #include <stdlib.h>
 
 // encryption function - lower and upper set the operable bounds for encrypting a string
-void encrypt(char lower, char upper);
+void encrypt(char lower, char upper, int cipher, int letter, string text);
 
-
-// setting global variables so they can be used in encrypt( )
-int k = 0;
-int i = 0;
-string p = 0;
 int main(int argc, string argv[])
 {
-    // checks to make sure user typed exactly two arguments
     if (argc != 2)
     {
-        printf("ERROR: There are not two command-line arguments\n");
+        printf("ERROR: Expected two command-line arguments\n");
         return 1;
     }
 
-    // converts cmd-line input (argv[1]) to integer (k), then gets string (p) from user and finds length of string (n)
-    k = atoi(argv[1]);
+    int key = atoi(argv[1]);
     printf("plaintext: ");
-    p = get_string();
-    int n = strlen(p);
+    string plaintext = get_string();
+    int length = strlen(plaintext);
 
     printf("ciphertext: ");
 
-    // iterates i over the values 0 to n, increasing i by 1 each time
-    for (i = 0; i < n; i++)
+    // encrypts all letters input by the user
+    for (int position = 0; position < length; position++)
     {
-        // see encryption function for more details
-        encrypt('A', 'Z');
-        encrypt('a', 'z');
-
-        // checks if a character in p is a letter (if not it prints it without modification)
-        if (p[i] < 'A' || (p[i] > 'Z' && p[i] < 'a') || p[i] > 'z')
-        {
-            printf("%c", p[i]);
-        }
+        encrypt('A', 'Z', key, position, plaintext);
+        encrypt('a', 'z', key, position, plaintext);
     }
 
     printf("\n");
 }
 
 // encrypts all characters within the given range
-void encrypt(char lower, char upper)
+void encrypt(char lower, char upper, int cipher, int letter, string text)
 {
-    // stores the difference between the upper and lower bounds (range) as an integer
+    if (text[letter] > upper || text[letter] < lower)
+    {
+        printf("%c", text[letter]);
+    }
+    
     int range = upper - lower;
 
-    // checks if a character is within the set boundaries
-    if (p[i] >= lower && p[i] <= upper)
+    // adjusts algorithm for encryption based off letter and key
+    if (text[letter] >= lower && text[letter] <= upper)
     {
-        // applies if k is less than or equal to range
-        if (k <= range)
+        if (cipher <= range)
         {
-            // if (character + k) is less than upper bound, print result of (character + k)
-            if (p[i] + k <= upper)
+            if (text[letter] + cipher <= upper)
             {
-                printf("%c", p[i] + k);
+                printf("%c", text[letter] + cipher);
             }
 
-            // otherwise, find (character + k) mod (upper bound), add that value (minus 1) to lower bound, and print the result
             else
             {
-                int remain = (p[i] + k) % (upper);
+                int remain = (text[letter] + cipher) % (upper);
                 printf("%c", lower + (remain - 1));
             }
         }
 
-        // applies if k is more than range
         else
         {
-            // divides k by (range + 1) and stores value of remainder in z
-            div_t over = div(k, range + 1);
-            int z = over.rem;
+            div_t over = div(cipher, range + 1);
+            int remain = over.rem;
 
-            // if (character + z) is less than upper bound, print result of (character + z)
-            if (p[i] + z <= upper)
+            if (text[letter] + remain <= upper)
             {
-                printf("%c", p[i] + z);
+                printf("%c", text[letter] + remain);
             }
 
-            // otherwise, find (character + z) mod (upper bound), add that value (minus 1) to lower bound, and print the result
             else
             {
-                int wrap = (p[i] + z) % (upper);
+                int wrap = (text[letter] + remain) % (upper);
                 printf("%c", lower + (wrap - 1));
             }
         }
