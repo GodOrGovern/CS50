@@ -26,6 +26,11 @@ int main(int argc, string argv[])
     {
         encrypt('A', 'Z', key, position, plaintext);
         encrypt('a', 'z', key, position, plaintext);
+
+        if (plaintext[position] > 'z' || plaintext[position] < 'A' || (plaintext[position] > 'Z' && plaintext[position] < 'a'))
+        {
+            printf("%c", plaintext[position]);
+        }
     }
 
     printf("\n");
@@ -34,11 +39,6 @@ int main(int argc, string argv[])
 // encrypts all characters within the given range
 void encrypt(char lower, char upper, int cipher, int letter, string text)
 {
-    if (text[letter] > upper || text[letter] < lower)
-    {
-        printf("%c", text[letter]);
-    }
-    
     int range = upper - lower;
 
     // adjusts algorithm for encryption based off letter and key
