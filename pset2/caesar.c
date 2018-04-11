@@ -53,7 +53,7 @@ void encrypt(char lower, char upper, int cipher, int letter, string text)
 
             else
             {
-                int remain = (text[letter] + cipher) % (upper);
+                int remain = (text[letter] + cipher) - (upper);
                 printf("%c", lower + (remain - 1));
             }
         }
@@ -70,7 +70,7 @@ void encrypt(char lower, char upper, int cipher, int letter, string text)
 
             else
             {
-                int wrap = (text[letter] + remain) % (upper);
+                int wrap = (text[letter] + remain) - (upper);
                 printf("%c", lower + (wrap - 1));
             }
         }
