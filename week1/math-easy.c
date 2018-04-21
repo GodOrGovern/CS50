@@ -10,4 +10,10 @@ int main(void)
     int y = get_int();
 
     printf("%i + %i = %i\n", x, y, x + y);
+    printf("%i - %i = %i\n", x, y, x - y);
+    printf("%i * %i = %i\n", x, y, x * y);
+    printf("%i / %i = %i\n", x, y, x / y);
+    printf("%i mod %i = %i\n", x, y, x % y);
+
+    return 0;
 }
