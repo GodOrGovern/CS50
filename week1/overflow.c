@@ -3,10 +3,12 @@
 
 int main(void)
 {
-    int n = 1;
+    int num = 1;
     for (int i = 0; i < 64; i++)
     {
-        printf("Value of n: %i\n", n);
-        n *= 2;
+        printf("Value of n: %i\n", num);
+        num *= 2;
     }
+
+    return 0;
 }

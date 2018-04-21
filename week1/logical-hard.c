@@ -5,9 +5,9 @@ int main(void)
 
 {
     printf("Do you want to remove this file? ");
-    char c = get_char();
+    char choice = get_char();
 
-    switch(c)
+    switch(choice)
     {
         case 'y':
         case 'Y':
@@ -22,4 +22,6 @@ int main(void)
         default:
             printf("error\n");
     }
+
+    return 0;
 }

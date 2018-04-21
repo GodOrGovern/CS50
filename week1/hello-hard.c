@@ -3,6 +3,8 @@
 
 int main(void)
 {
-    int i = get_int();
-    printf("Hello %i\n", i);
+    int num = get_int();
+    printf("Hello %i\n", num);
+    
+    return 0;
 }

@@ -2,15 +2,17 @@
 
 int main(void)
 {
-    for (int i = 65; i < 91; i++)
+    for (int num = 65; num < 91; num++)
     {
-        printf("%c = %i\n", i, i);
+        printf("%c = %i\n", num, num);
     }
 
     printf("\n");
 
-    for (char c = 'A'; c <= 'Z'; c++)
+    for (char letter = 'A'; letter <= 'Z'; letter++)
     {
-        printf("%c = %i\n", c, c);
+        printf("%c = %i\n", letter, letter);
     }
+
+    return 0;
 }

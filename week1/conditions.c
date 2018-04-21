@@ -4,20 +4,22 @@
 int main(void)
 {
     printf("Number: ");
-    int i = get_int();
+    int input = get_int();
 
-    if (i > 0)
+    if (input > 0)
     {
-        printf("%i is positive\n", i);
+        printf("%i is positive\n", input);
     }
 
-    else if (i < 0)
+    else if (input < 0)
     {
-        printf("%i is negative\n", i);
+        printf("%i is negative\n", input);
     }
 
     else
     {
-        printf("%i is zero\n", i);
+        printf("%i is zero\n", input);
     }
+
+    return 0;
 }

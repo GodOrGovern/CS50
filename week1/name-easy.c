@@ -4,6 +4,8 @@
 int main(void)
 {
     printf("Name: ");
-    string s = get_string();
-    printf("Hello %s\n", s);
+    string name = get_string();
+    printf("Hello %s\n", name);
+    
+    return 0;
 }

@@ -6,13 +6,15 @@
 int main(void)
 {
     printf("Input: ");
-    string s = get_string();
-    int n = strlen(s);
+    string word = get_string();
+    int len = strlen(word);
 
-    for (int i = 0; i < n; i++)
+    for (int pos = 0; pos < len; pos++)
     {
-        printf("%c", toupper(s[i]));
+        printf("%c", toupper(word[pos]));
     }
 
     printf("\n");
+    
+    return 0;
 }

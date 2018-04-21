@@ -5,24 +5,26 @@
 int main(void)
 {
     printf("What would you like to capitalize? ");
-    string s = get_string();
+    string word = get_string();
 
-    if (s != NULL)
+    if (word != NULL)
     {
-        int n = strlen(s);
-        char array[n];
-        sprintf(array, "%s", s);
+        int len = strlen(word);
+        char array[len];
+        sprintf(array, "%s", word);
 
-        for (int i = 0; i < n; i++)
+        for (int pos = 0; pos < len; pos++)
         {
-            if (array[i] >= 97 && array[i] <= 122)
+            if (array[pos] >= 97 && array[pos] <= 122)
             {
-                array[i] = array[i] - 32;
+                array[pos] = array[pos] - 32;
             }
 
-            printf("%c", array[i]);
+            printf("%c", array[pos]);
         }
     }
 
     printf("\n");
+    
+    return 0;
 }

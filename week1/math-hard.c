@@ -13,4 +13,6 @@ int main(void)
     printf("%f - %f = %f\n", x, y, x - y);
     printf("%f * %f = %f\n", x, y, x * y);
     printf("%f / %f= %f\n", x, y, x / y);
+
+    return 0;
 }

@@ -4,14 +4,14 @@
 int main(void)
 {
     printf("Would you like to remove this file? ");
-    char c = get_char();
+    char choice = get_char();
 
-    if (c == 'y' || c == 'Y')
+    if (choice == 'y' || choice == 'Y')
     {
         printf("Yes\n");
     }
 
-    else if (c == 'n' || c == 'N')
+    else if (choice == 'n' || choice == 'N')
     {
         printf("No\n");
     }
@@ -20,4 +20,6 @@ int main(void)
     {
         printf("Error\n");
     }
+
+    return 0;
 }

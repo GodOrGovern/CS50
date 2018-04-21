@@ -4,17 +4,16 @@
 
 int main(void)
 {
-    // get string (s) from user
     printf("Input: ");
-    string s = get_string();
+    string word = get_string();
 
-    // make sure s is a valid string
-    if (s != NULL)
+    if (word != NULL)
     {
-        // print each character in s on a separate line
-        for (int i = 0, n = strlen(s); i < n; i++)
+        for (int pos = 0, len = strlen(word); pos < len; pos++)
         {
-            printf("%i = %c\n", i, s[i]);
+            printf("%i = %c\n", pos, word[pos]);
         }
     }
+
+    return 0;
 }
