@@ -44,7 +44,7 @@ int permute(char *attempt, char salt[], char *argv[], int pos)
     for (int letter = 0; letter < 52; letter++)
     {
         attempt[pos] = alphabet[letter];
-        
+
         if (pos > 0)
         {
             permute(attempt, salt, argv, pos - 1);
