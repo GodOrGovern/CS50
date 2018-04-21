@@ -22,27 +22,27 @@ int main(int argc, string argv[])
     printf("ciphertext: ");
 
     // encrypts all letters input by the user
-    for (int pos=0; pos < length; pos++)
+    for (int pos = 0; pos < length; pos++)
     {
         if (isalpha(plaintext[pos]))
         {
             encrypt('A', 'Z', key, plaintext[pos]);
             encrypt('a', 'z', key, plaintext[pos]);
         }
-        
+
         else
         {
             printf("%c", plaintext[pos]);
-        }    
+        }
     }
 
     printf("\n");
     return 0;
 }
 
+// use key to encrypt plaintext within bounds
 void encrypt(char lower, char upper, int cipher, char letter)
 {
-    // adjusts algorithm for encryption based off letter and key
     if (letter >= lower && letter <= upper)
     {
         if (letter + cipher <= upper)

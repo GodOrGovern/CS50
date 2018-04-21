@@ -14,7 +14,7 @@ int main(int argc, string argv[])
     }
 
     int len_key = strlen(argv[1]);
-    for (int spot=0; spot < len_key; spot++)
+    for (int spot = 0; spot < len_key; spot++)
     {
         if (!(isalpha(argv[1][spot])))
         {
@@ -23,9 +23,10 @@ int main(int argc, string argv[])
         }
     }
 
+    // get key from user input
     string buffer = argv[1];
     int key[len_key];
-    for(int i = 0; buffer[i]; i++)
+    for (int i = 0; buffer[i]; i++)
     {
         buffer[i] = toupper(buffer[i]);
         key[i] = buffer[i] - 65;
@@ -35,9 +36,9 @@ int main(int argc, string argv[])
     string plaintext = get_string();
     int len_text = strlen(plaintext);
     int pos_key = 0;
-    
+
     printf("ciphertext: ");
-    for (int pos=0; pos < len_text; pos++)
+    for (int pos = 0; pos < len_text; pos++)
     {
         if (isalpha(plaintext[pos]))
         {
@@ -56,7 +57,7 @@ int main(int argc, string argv[])
     return 0;
 }
 
-// adjusts algorithm for encryption based off letter and key
+// use key to encrypt user plaintext within bounds
 void encrypt(char lower, char upper, int cipher, char letter)
 {
     if (letter >= lower && letter <= upper)
