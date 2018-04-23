@@ -5,14 +5,14 @@
 
 int main(void)
 {
-    string s = get_string();
-    printf("%c", toupper(s[0]));
+    string name = get_string();
+    printf("%c", toupper(name[0]));
 
-    for (int n = 0, i = strlen(s); n < i; n++)
+    for (int pos = 0, len = strlen(name); pos < len; pos++)
     {
-        if (s[n] == ' ')
+        if (name[pos] == ' ')
         {
-            printf("%c", toupper(s[n + 1]));
+            printf("%c", toupper(name[pos + 1]));
         }
     }
 

@@ -5,24 +5,23 @@
 
 int main(void)
 {
-    string s = get_string();
+    string name = get_string();
 
-    if (s[0] != ' ' && s[0] != '\0')
+    if (name[0] != ' ' && name[0] != '\0')
     {
-        printf("%c", toupper(s[0]));
+        printf("%c", toupper(name[0]));
     }
-
-    // checks for spaces over the length of the name and prints character right after space
-    for (int n = 0, i = strlen(s); n < i; n++)
+    
+    for (int pos = 0, len = strlen(name); pos < len; pos++)
     {
-        while (s[n] == ' ')
+        while (name[pos] == ' ')
         {
-            n++;
+            pos++;
         }
 
-        if (s[n - 1] == ' ' && s[n] != '\0')
+        if (name[pos - 1] == ' ' && name[pos] != '\0')
         {
-            printf("%c", toupper(s[n]));
+            printf("%c", toupper(name[pos]));
         }
     }
 
