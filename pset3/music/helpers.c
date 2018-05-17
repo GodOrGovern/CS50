@@ -1,7 +1,8 @@
 // Helper functions for music
 
 #include <cs50.h>
-
+#include <math.h>
+#include <string.h>
 #include "helpers.h"
 
 // Converts a fraction formatted as X/Y to eighths
@@ -18,9 +19,9 @@ int duration(string fraction)
 int frequency(string note)
 {
     int length = strlen(note);
-    int *semi = {9, 11, 0, 2, 4, 5, 7};
-    int *pitch = {1, 0, 0, 0, 0, 0, 0, 0, 0, -1};
-    int buffer = semi[note[0] - 65];
+    int semi[7] = {9, 11, 0, 2, 4, 5, 7};
+    int pitch[10] = {1, 0, 0, 0, 0, 0, 0, 0, 0, -1};
+    float buffer = semi[note[0] - 65];
 
     if (length == 2)
     {
@@ -29,17 +30,17 @@ int frequency(string note)
 
     else
     {
-        buffer += pitch[(note[1] / 7) - 5] + (note[2] - 48) * 12;
+        buffer += pitch[(note[1] / 7) - 5] + (note[2] - 49) * 12;
     }
 
-    int space = abs(45 - buffer);
-    return round(pow(2, space / 12) * 440);
+    int result = round(pow(2, (buffer - 45) / 12) * 440);
+    return result;
 }
 
 // Determines whether a string represents a rest
 bool is_rest(string s)
 {
-    if (s == "")
+    if (!(strcmp(s, "")))
     {
         return true;
     }
