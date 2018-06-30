@@ -13,7 +13,8 @@ int main(int argc, char *argv[])
 	}
 
 	int fact = atoi(argv[1]);
-	if (fact < 0 || fact > 100 || (fact % 1) != 0)
+	float check = atof(argv[1]);
+	if (fact < 0 || fact > 100 || fact != check)
 	{
 		fprintf(stderr, "Usage: ./resize factor infile outfile\n");
 		fprintf(stderr, "factor must be a positive integer less than or equal to 100\n");
