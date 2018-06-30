@@ -12,11 +12,11 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	int n = atoi(argv[1]);
-	if (n < 0 || n > 100 || (n % 1) != 0)
+	int fact = atoi(argv[1]);
+	if (fact < 0 || fact > 100 || (fact % 1) != 0)
 	{
-		fprintf(stderr, "Usage: ./resize n infile outfile\n");
-		fprintf(stderr, "n must be a positive integer less than or equal to 	100\n");
+		fprintf(stderr, "Usage: ./resize factor infile outfile\n");
+		fprintf(stderr, "factor must be a positive integer less than or equal to 100\n");
 		return 1;
 	}
 
@@ -40,7 +40,6 @@ int main(int argc, char *argv[])
 
 	BITMAPFILEHEADER bf;
 	fread(&bf, sizeof(BITMAPFILEHEADER), 1, inpt);
-
 	BITMAPINFOHEADER bi;
     fread(&bi, sizeof(BITMAPINFOHEADER), 1, inpt);
 
@@ -54,40 +53,35 @@ int main(int argc, char *argv[])
 
 	int origwidth = bi.biWidth;
 	int origpad = (4 - (origwidth * sizeof(RGBTRIPLE)) % 4) % 4;
-
-	bi.biWidth *= n;
-	bi.biHeight *= n;
-
+	bi.biWidth *= fact;
+	bi.biHeight *= fact;
 	int padding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
-
 	bi.biSizeImage = (bi.biWidth * abs(bi.biHeight) * 3) + (padding * abs(bi.biHeight));
 	bf.bfSize = bi.biSizeImage + bf.bfOffBits;
-
 	fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outpt);
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outpt);
 
-    for (int i = 0, height = abs(bi.biHeight); i < height; i++)
+    for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
     {
-
-		for (int k = 0; k < origwidth; k++)
+		for (int j = 0; j < origwidth; j++)
 		{
 			RGBTRIPLE triple;
 			fread(&triple, sizeof(RGBTRIPLE), 1, inpt);
 
-			for (int l = 0; l < n; l++)
+			for (int k = 0; k < fact; k++)
 			{
 				fwrite(&triple, sizeof(RGBTRIPLE), 1, outpt);
 			}
 		}
 
 		fseek(inpt, origpad, SEEK_CUR);
-		for (int m = 0; m < padding; m++)
+		for (int l = 0; l < padding; l++)
 		{
 				fputc(0x00, outpt);
 		}
 
 		int distance = (origwidth * sizeof(RGBTRIPLE)) + origpad;
-		if ((i + 1) % n != 0)
+		if ((i + 1) % fact != 0)
 		{
 			fseek(inpt, -(distance), SEEK_CUR);
 		}

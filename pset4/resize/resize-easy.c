@@ -13,11 +13,11 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	float f = atof(argv[1]);
-	if (f <= 0 || f > 100 || fmodf(10 * f, 1) != 0)
+	float fact = atof(argv[1]);
+	if (fact <= 0 || fact > 100 || fmodf(10 * fact, 1) != 0)
 	{
 		fprintf(stderr, "Usage: ./resize f infile outfile\n");
-		fprintf(stderr, "f must be a floating-point value over the range (0.0, 100.0]\n");
+		fprintf(stderr, "factor must be a floating-point value over the range (0.0, 100.0]\n");
 		return 1;
 	}
 
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 	int origpad = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 	RGBTRIPLE image[bi.biWidth][abs(bi.biHeight)];
 
-	for (int a = 0, arbit = abs(bi.biHeight); a < arbit; a++)
+	for (int a = 0, biHeight = abs(bi.biHeight); a < biHeight; a++)
 	{
 		for (int b = 0; b < bi.biWidth; b++)
 		{
@@ -67,8 +67,8 @@ int main(int argc, char *argv[])
 		fseek(inpt, origpad, SEEK_CUR);
 	}
 
-	bi.biWidth *= f;
-	bi.biHeight *= f;
+	bi.biWidth *= fact;
+	bi.biHeight *= fact;
 	int padding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 	bi.biSizeImage = (bi.biWidth * abs(bi.biHeight) * 3) + (padding * abs(bi.biHeight));
 	bf.bfSize = bi.biSizeImage + bf.bfOffBits;
@@ -76,17 +76,17 @@ int main(int argc, char *argv[])
 	fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outpt);
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outpt);
 
-    for (int i = 0, height = abs(bi.biHeight); i < height; i++)
+    for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
     {
-		for (int k = 0; k < bi.biWidth; k++)
+		for (int j = 0; j < bi.biWidth; j++)
 		{
 			RGBTRIPLE triple;
-			triple = image[(int) (i / f)][(int) (k / f)];
+			triple = image[(int) (i / fact)][(int) (j / fact)];
 			fwrite(&triple, sizeof(RGBTRIPLE), 1, outpt);
 		}
 
 		fseek(inpt, origpad, SEEK_CUR);
-		for (int m = 0; m < padding; m++)
+		for (int k = 0; k < padding; k++)
 		{
 			fputc(0x00, outpt);
 		}
