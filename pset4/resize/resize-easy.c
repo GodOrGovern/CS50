@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
-#include <math.h>
 #include "bmp.h"
 
 int main(int argc, char *argv[])
@@ -13,11 +12,12 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	float fact = atof(argv[1]);
-	if (fact <= 0 || fact > 100 || fmodf(10 * fact, 1) != 0)
+	int fact = atoi(argv[1]);
+	float check = atof(argv[1]);
+	if (fact < 0 || fact > 100 || fact != check)
 	{
-		fprintf(stderr, "Usage: ./resize f infile outfile\n");
-		fprintf(stderr, "factor must be a floating-point value over the range (0.0, 100.0]\n");
+		fprintf(stderr, "Usage: ./resize factor infile outfile\n");
+		fprintf(stderr, "factor must be a positive integer less than or equal to 100\n");
 		return 1;
 	}
 
@@ -52,43 +52,39 @@ int main(int argc, char *argv[])
         return 4;
     }
 
-	int origpad = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
-	RGBTRIPLE image[bi.biWidth][abs(bi.biHeight)];
-
-	for (int a = 0, biHeight = abs(bi.biHeight); a < biHeight; a++)
-	{
-		for (int b = 0; b < bi.biWidth; b++)
-		{
-			RGBTRIPLE triple;
-			fread(&triple, sizeof(RGBTRIPLE), 1, inpt);
-			image[a][b] = triple;
-		}
-
-		fseek(inpt, origpad, SEEK_CUR);
-	}
-
+	int origwidth = bi.biWidth;
+	int origpad = (4 - (origwidth * sizeof(RGBTRIPLE)) % 4) % 4;
 	bi.biWidth *= fact;
 	bi.biHeight *= fact;
 	int padding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 	bi.biSizeImage = (bi.biWidth * abs(bi.biHeight) * 3) + (padding * abs(bi.biHeight));
 	bf.bfSize = bi.biSizeImage + bf.bfOffBits;
-
 	fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outpt);
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outpt);
 
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
     {
-		for (int j = 0; j < bi.biWidth; j++)
+		for (int j = 0; j < origwidth; j++)
 		{
 			RGBTRIPLE triple;
-			triple = image[(int) (i / fact)][(int) (j / fact)];
-			fwrite(&triple, sizeof(RGBTRIPLE), 1, outpt);
+			fread(&triple, sizeof(RGBTRIPLE), 1, inpt);
+
+			for (int k = 0; k < fact; k++)
+			{
+				fwrite(&triple, sizeof(RGBTRIPLE), 1, outpt);
+			}
 		}
 
 		fseek(inpt, origpad, SEEK_CUR);
-		for (int k = 0; k < padding; k++)
+		for (int l = 0; l < padding; l++)
 		{
-			fputc(0x00, outpt);
+				fputc(0x00, outpt);
+		}
+
+		int distance = (origwidth * sizeof(RGBTRIPLE)) + origpad;
+		if ((i + 1) % fact != 0)
+		{
+			fseek(inpt, -(distance), SEEK_CUR);
 		}
 	}
 
