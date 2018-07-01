@@ -1,109 +1,105 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <math.h>
 #define BLOCK_SIZE 512
 
 int main(int argc, char *argv[])
 {
-  if (argc!=2)
-  {
-    fprintf(stderr, "Usage: ./recover forensic-image-file\n");
-    return 1;
-  }
-
-  FILE *inpt=fopen(argv[1], "r");
-  if (inpt==NULL)
-  {
-    fprintf(stderr, "Could not open %s\n", argv[1]);
-    return 2;
-  }
-
-  fseek(inpt, 0, SEEK_END);
-  int size=ftell(inpt);
-  int block_count;
-  rewind(inpt);
-
-  if (size % BLOCK_SIZE==0)
-  {
-    block_count=(size / BLOCK_SIZE);
-  }
-
-  else
-  {
-    block_count=(size / BLOCK_SIZE) + 1;
-  }
-
-  int i, j, start[block_count];
-  char *byte_four[block_count];
-  char *buffer[block_count];
-  for (i=0; i < block_count; i++)
-  {
-    buffer[i]=(char *)malloc(BLOCK_SIZE * sizeof(char));
-    byte_four[i]=(char *)malloc(2 * sizeof(char));
-  }
-
-  int k=0, m=0, n=0;
-  for (i=0; i < block_count; i++)
-  {
-    for (j=0; j < BLOCK_SIZE; j++)
+    if (argc != 2)
     {
-      fread(&buffer[i][j], 1, 1, inpt);
+        fprintf(stderr, "Usage: ./recover forensic-image-file\n");
+        return 1;
     }
 
-    if (buffer[i][0 & 2]==(char)0xff && buffer[i][1]==(char)0xd8)
+    FILE *inpt = fopen(argv[1], "r");
+    if (inpt == NULL)
     {
-      sprintf(byte_four[k], "%02hhx", buffer[i][3]);
-      if (byte_four[k][0]=='e')
-      {
-        start[m]=i;
-        m++;
-      }
-      k++;
-    }
-  }
-
-  FILE *jpg;
-  char file_name[7], p;
-  int q, jpg_size;
-  for (n=0; n < m; n++)
-  {
-    sprintf(file_name, "%03i.jpg", n);
-    jpg=fopen(file_name, "w");
-    if (jpg==NULL)
-    {
-      printf("Could not open %s\n", file_name);
-      return 1;
+        fprintf(stderr, "Could not open %s\n", argv[1]);
+        return 2;
     }
 
-    q=0;
-    fseek(inpt, BLOCK_SIZE * start[n], SEEK_SET);
-    p=fgetc(inpt);
+    fseek(inpt, 0, SEEK_END);
+    int size = ftell(inpt);
+    rewind(inpt);
 
-    if (n != m - 1)
+    int block_count = ceil(size / BLOCK_SIZE);
+    int block, pos, start[block_count];
+    char *byte_four[block_count];
+    char *buffer[block_count];
+    
+    for (block = 0; block < block_count; block++)
     {
-      jpg_size=(start[n+1] - start[n]) * BLOCK_SIZE;
+        buffer[block] = (char *)malloc(BLOCK_SIZE * sizeof(char));
+        byte_four[block] = (char *)malloc(2 * sizeof(char));
     }
 
-    else
+    int num_byte = 0, num_jpg = 0;
+    for (block = 0; block < block_count; block++)
     {
-      jpg_size=(block_count - start[n]) * BLOCK_SIZE;
+        for (pos = 0; pos < BLOCK_SIZE; pos++)
+        {
+            fread(&buffer[block][pos], 1, 1, inpt);
+        }
+
+        if (buffer[block][0 & 2] == (char)0xff && buffer[block][1] == (char)0xd8)
+        {
+            sprintf(byte_four[num_byte], "%02hhx", buffer[block][3]);
+        
+            if (byte_four[num_byte][0] == 'e')
+            {
+                start[num_jpg] = block;
+                num_jpg++;
+            }
+
+            num_byte++;
+        }
     }
 
-    while (q < jpg_size)
+    FILE *jpg;
+    char file_name[7], buff_char;
+    int cur_size, cur_jpg, size_jpg;
+
+    for (cur_jpg = 0; cur_jpg < num_jpg; cur_jpg++)
     {
-      fputc(p, jpg);
-      q++;
-      p=fgetc(inpt);
+        sprintf(file_name, "%03i.jpg", cur_jpg);
+        jpg = fopen(file_name, "w");
+
+        if (jpg == NULL)
+        {
+            printf("Could not open %s\n", file_name);
+            return 1;
+        }
+
+        cur_size = 0;
+        fseek(inpt, BLOCK_SIZE * start[cur_jpg], SEEK_SET);
+
+        if (cur_jpg != num_jpg - 1)
+        {
+            size_jpg = (start[cur_jpg + 1] - start[cur_jpg]) * BLOCK_SIZE;
+        }
+
+        else
+        {
+            size_jpg = (block_count - start[cur_jpg]) * BLOCK_SIZE;
+        }
+
+        while (cur_size < size_jpg)
+        {
+            buff_char = fgetc(inpt);
+            fputc(buff_char, jpg);
+            cur_size++;
+        }
+
+        fclose(jpg);
     }
 
-    fclose(jpg);
-  }
+    for (block = 0; block < block_count; block++)
+    {
+        free(buffer[block]);
+        free(byte_four[block]);
+    }
 
-  for (i=0; i < block_count; i++)
-  {
-    free(buffer[i]);
-    free(byte_four[i]);
-  }
-  fclose(inpt);
-  return 0;
+    fclose(inpt);
+    return 0;
 }
