@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     int block, pos, start[block_count];
     char *byte_four[block_count];
     char *buffer[block_count];
-    
+
     for (block = 0; block < block_count; block++)
     {
         buffer[block] = (char *)malloc(BLOCK_SIZE * sizeof(char));
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
         if (buffer[block][0 & 2] == (char)0xff && buffer[block][1] == (char)0xd8)
         {
             sprintf(byte_four[num_byte], "%02hhx", buffer[block][3]);
-        
+
             if (byte_four[num_byte][0] == 'e')
             {
                 start[num_jpg] = block;
