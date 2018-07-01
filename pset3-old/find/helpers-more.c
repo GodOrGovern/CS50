@@ -2,9 +2,7 @@
 #include "helpers.h"
 
 bool binary(int value, int values[], int low, int high);
-int max(int values[], int n);
 void count(int values[], int n, int exp);
-void radix(int values[], int n);
 
 bool search(int value, int values[], int n)
 {
@@ -43,22 +41,20 @@ bool binary(int value, int values[], int low, int high)
 
 void sort(int values[], int n)
 {
-    radix(values, n);
-}
-
-int max(int values[], int n)
-{
-    int mx = values[0];
-
+    int max = values[0];
     for (int i = 0; i < n; i++)
     {
-        if (mx < values[i])
+        if (max < values[i])
         {
-            mx = values[i];
+            max = values[i];
         }
     }
 
-    return mx;
+    int exp;
+    for (exp = 1; (max / exp) > 0; exp *= 10)
+    {
+        count(values, n, exp);
+    }
 }
 
 void count(int values[], int n, int exp)
@@ -85,16 +81,5 @@ void count(int values[], int n, int exp)
     for (i = 0; i < n; i++)
     {
         values[i] = output[i];
-    }
-}
-
-void radix(int values[], int n)
-{
-    int m = max(values, n);
-
-    int exp;
-    for (exp = 1; (m / exp) > 0; exp *= 10)
-    {
-        count(values, n, exp);
     }
 }
