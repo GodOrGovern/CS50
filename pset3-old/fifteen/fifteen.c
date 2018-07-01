@@ -15,7 +15,7 @@
 int board[DIM_MAX][DIM_MAX];
 
 // dimensions
-int d;
+int dim;
 
 // prototypes
 void clear(void);
@@ -30,13 +30,13 @@ int main(int argc, string argv[])
     // ensure proper usage
     if (argc != 2)
     {
-        printf("Usage: fifteen d\n");
+        printf("Usage: ./fifteen dimension\n");
         return 1;
     }
 
     // ensure valid dimensions
-    d = atoi(argv[1]);
-    if (d < DIM_MIN || d > DIM_MAX)
+    dim = atoi(argv[1]);
+    if (dim < DIM_MIN || dim > DIM_MAX)
     {
         printf("Board must be between %i x %i and %i x %i, inclusive.\n",
             DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
@@ -117,37 +117,37 @@ void greet(void)
  */
 void init(void)
 {
-    int i = 0;
-    int k = 0;
+    int row = dim;
+    int col = 0;
     int val = 0;
 
     do
     {
-        for (k = 0; k < d; k++)
+        for (col = dim; col >= 0; col--)
         {
-            val = ((d - i) * d) - (k + 1);
-            board[i][k] = val;
+            val = ((dim - row) * dim) - (col + 1);
+            board[row][col] = val;
 
-            if (d % 2 == 0)
+            if (dim % 2 == 0)
             {
-                if (board[i][k] == 1)
+                if (board[row][col] == 1)
                 {
-                    board[i][k] = 2;
+                    board[row][col] = 2;
                 }
 
-                else if (board[i][k] == 2)
+                else if (board[row][col] == 2)
                 {
-                    board[i][k] = 1;
+                    board[row][col] = 1;
                 }
             }
 
-            if (k == (d - 1))
+            if (col == (dim - 1))
             {
-                i++;
+                row--;
             }
         }
     }
-    while (i < d);
+    while (row >= 0);
 }
 
 /**
@@ -155,60 +155,57 @@ void init(void)
  */
 void draw(void)
 {
-    int i = 0;
-    int k = 0;
+    int row = 0;
+    int col = 0;
     int val = 0;
+
+    printf("\n\n");
 
     do
     {
-        for (k = 0; k < d; k++)
+        for (col = 0; col < dim; col++)
         {
-            val = (i * d) + (k + 1);
+            val = (row * dim) + (col + 1);
 
-            if (k == 0 && i == 0)
-            {
-                printf("\n\n");
-            }
-
-            if (board[i][k] == 0)
+            if (board[row][col] == 0)
             {
                 printf("   _   ");
             }
 
-            else if (board[i][k] > 9)
+            else if (board[row][col] > 9)
             {
-                if (board[i][k] == val)
+                if (board[row][col] == val)
                 {
-                    printf(GRN "  %i   " RST, board[i][k]);
+                    printf(GRN "  %i   " RST, board[row][col]);
                 }
 
                 else
                 {
-                    printf("  %i   ", board[i][k]);
+                    printf("  %i   ", board[row][col]);
                 }
             }
 
             else
             {
-                if (board[i][k] == val)
+                if (board[row][col] == val)
                 {
-                    printf(GRN "   %i   " RST, board[i][k]);
+                    printf(GRN "   %i   " RST, board[row][col]);
                 }
 
                 else
                 {
-                    printf("   %i   ", board[i][k]);
+                    printf("   %i   ", board[row][col]);
                 }
             }
 
-            if (k == (d - 1))
+            if (col == (dim - 1))
             {
                 printf("\n\n\n");
-                i++;
+                row++;
             }
         }
     }
-    while(i < d);
+    while(row < dim);
 }
 
 /**
@@ -217,44 +214,43 @@ void draw(void)
  */
 bool move(int tile)
 {
-    int i = 0;
-    int k = 0;
-    int row[2] = { 0 };
-    int col[2] = { 0 };
-    int temp = 0;
+    int row = 0;
+    int col = 0;
+    int loc[2][2];
+    int buffer = 0;
 
     do
     {
-        for (k = 0; k < d; k++)
+        for (col = 0; col < dim; col++)
         {
-            if (board[i][k] == tile)
+            if (board[row][col] == tile)
             {
-                row[0] = i;
-                col[0] = k;
+                loc[0][0] = row;
+                loc[1][0] = col;
             }
 
-            if (board[i][k] == 0)
+            if (board[row][col] == 0)
             {
-                row[1] = i;
-                col[1] = k;
+                loc[0][1] = row;
+                loc[1][1] = col;
             }
 
-            if (k == (d - 1))
+            if (col == (dim - 1))
             {
-                i++;
+                row++;
             }
         }
     }
-    while (i < d);
+    while (row < dim);
 
 
-    if (row[0] == row[1])
+    if (loc[0][0] == loc[0][1])
     {
-        if (col[0] + 1 == col[1] || col[0] - 1 == col[1])
+        if (abs(loc[1][1] - loc[1][0]) == 1)
         {
-            temp = board[row[0]][col[0]];
-            board[row[0]][col[0]] = board[row[1]][col[1]];
-            board[row[1]][col[1]] = temp;
+            buffer = board[loc[0][0]][loc[1][0]];
+            board[loc[0][0]][loc[1][0]] = board[loc[0][1]][loc[1][1]];
+            board[loc[0][1]][loc[1][1]] = buffer;
             return true;
         }
 
@@ -264,13 +260,13 @@ bool move(int tile)
         }
     }
 
-    else if (col[0] == col[1])
+    else if (loc[1][0] == loc[1][1])
     {
-        if (row[0] + 1 == row[1] || row[0] - 1 == row[1])
+        if (abs(loc[0][1] - loc[0][0]) == 1)
         {
-            temp = board[row[0]][col[0]];
-            board[row[0]][col[0]] = board[row[1]][col[1]];
-            board[row[1]][col[1]] = temp;
+            buffer = board[loc[0][0]][loc[1][0]];
+            board[loc[0][0]][loc[1][0]] = board[loc[0][1]][loc[1][1]];
+            board[loc[0][1]][loc[1][1]] = buffer;
             return true;
         }
 
@@ -292,31 +288,31 @@ bool move(int tile)
  */
 bool won(void)
 {
-    int i = 0;
-    int k = 0;
+    int row = 0;
+    int col = 0;
     int count = 0;
     int val = 0;
 
     do
     {
-        for (k = 0; k < d; k++)
+        for (col = 0; col < dim; col++)
         {
-            val = (i * d) + (k + 1);
+            val = (row * dim) + (col + 1);
 
-            if (board[i][k] == val)
+            if (board[row][col] == val)
             {
                 count++;
             }
 
-            if (k == (d - 1))
+            if (col == (dim - 1))
             {
-                i++;
+                row++;
             }
         }
     }
-    while (i < d);
+    while (row < dim);
 
-    if (count == (d * d) - 1)
+    if (count == (dim * dim) - 1)
     {
         return true;
     }
