@@ -20,6 +20,6 @@ int main(void)
     // print student information
     for (int i = 0; i < enrollment; i++)
     {
-        print("%s is in %s\n", students[i].name, students[i].dorm);
+        printf("%s is in %s\n", students[i].name, students[i].dorm);
     }
 }

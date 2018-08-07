@@ -46,6 +46,6 @@ int main(void)
 
     for (int i = 0; i < size; i++)
     {
-        print("%i\n", numbers[i]);
+        printf("%i\n", numbers[i]);
     }
 }
