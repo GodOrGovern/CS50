@@ -2,6 +2,7 @@
 
 void foo(char *bar)
 {
+    // potential for buffer overflow
     char c[12];
     memcpy(c, bar, strlen(bar));
 }
