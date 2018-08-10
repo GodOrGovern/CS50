@@ -4,6 +4,8 @@
 
 #include "dictionary.h"
 
+#define ALPHA_LENGTH 26
+
 struct trie
 {
     bool word_end;
