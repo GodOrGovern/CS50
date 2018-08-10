@@ -4,6 +4,12 @@
 
 #include "dictionary.h"
 
+struct trie
+{
+    bool word_end;
+    struct trie *children[ALPHA_LENGTH];
+};
+
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
