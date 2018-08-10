@@ -8,7 +8,7 @@
 
 struct trie
 {
-    bool word_end;
+    bool leaf;
     struct trie *children[ALPHA_LENGTH];
 };
 
