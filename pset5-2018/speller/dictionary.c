@@ -1,16 +1,28 @@
-// Implements a dictionary's functionality
-
 #include <stdbool.h>
 
 #include "dictionary.h"
 
-#define ALPHA_LENGTH 26
+#define ALPHA_LENGTH 27
 
-struct trie
+typedef struct trie
 {
     bool leaf;
     struct trie *children[ALPHA_LENGTH];
-};
+}
+trie;
+
+trie get_node()
+{
+    trie *node = (trie *)malloc(sizeof(trie));
+    node->leaf = false;
+
+    for (int i = 0; i < ALPHA_LENGTH; i++)
+    {
+        node->character[i] = NULL;
+    }
+
+    return node;
+}
 
 // Returns true if word is in dictionary else false
 bool check(const char *word)
