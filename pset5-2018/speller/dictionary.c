@@ -22,7 +22,7 @@ trie *root;
 
 trie *get_node(void)
 {
-    trie *node = (trie *)malloc(sizeof(trie));
+    trie *node = (trie *) malloc(sizeof(trie));
     node->leaf = false;
 
     for (int i = 0; i < ALPHA_LEN; i++)
@@ -63,7 +63,7 @@ void free_trie(trie *node)
         }
     }
     
-    free (node);
+    free(node);
 }
 
 // Returns true if word is in dictionary else false
@@ -104,7 +104,7 @@ bool load(const char *dictionary)
         return false;
     }
 
-    root = (trie *)malloc(sizeof(trie));
+    root = (trie *) malloc(sizeof(trie));
 
     char buf[45];
     while(fgets(buf, 45, dict) != NULL)
@@ -113,6 +113,7 @@ bool load(const char *dictionary)
         insert(buf);
     }
 
+    free(dict);
     loaded = true;
     return true;
 }
@@ -134,7 +135,9 @@ bool unload(void)
     if (root)
     {
         free_trie(root);
+        free(root);
         return true;
     }
+
     return false;
 }
