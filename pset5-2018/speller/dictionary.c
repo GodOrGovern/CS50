@@ -22,7 +22,7 @@ trie *root;
 
 trie *get_node(void)
 {
-    trie *node = (trie *) malloc(sizeof(trie));
+    trie *node = (trie *)malloc(sizeof(trie));
     node->leaf = false;
 
     for (int i = 0; i < ALPHA_LEN; i++)
@@ -54,15 +54,15 @@ void insert(const char *key)
 
 void free_trie(trie *node)
 {
-    for (int i = 0; i < ALPHA_LEN; i++) 
+    for (int i = 0; i < ALPHA_LEN; i++)
     {
-        if (node->children[i]) 
+        if (node->children[i])
         {
             free_trie(node->children[i]);
-            node->children[i] = NULL;  
+            node->children[i] = NULL;
         }
     }
-    
+
     free(node);
 }
 
@@ -75,7 +75,7 @@ bool check(const char *word)
     {
         low_word[i] = tolower(word[i]);
     }
-    
+
     low_word[len] = '\0';
     trie *curr = root;
 
@@ -104,16 +104,16 @@ bool load(const char *dictionary)
         return false;
     }
 
-    root = (trie *) malloc(sizeof(trie));
+    root = get_node();
 
-    char buf[45];
-    while(fgets(buf, 45, dict) != NULL)
+    char buf[LENGTH + 1];
+    while (fgets(buf, LENGTH + 2, dict) != NULL)
     {
         word_count++;
         insert(buf);
     }
 
-    free(dict);
+    fclose(dict);
     loaded = true;
     return true;
 }
@@ -135,7 +135,6 @@ bool unload(void)
     if (root)
     {
         free_trie(root);
-        free(root);
         return true;
     }
 
