@@ -45,6 +45,26 @@ void insert(trie *root, const char *key)
     curr->leaf = true;
 }
 
+unsigned int word_count(trie *root)
+{
+    int result = 0;
+ 
+    if (root->leaf)
+    {
+        result++;
+    }
+     
+    for (int i = 0; i < ALPHABET_SIZE; i++)
+    {
+        if (root->children[i])
+        {
+            result += word_count(root->children[i]);
+        }
+    }
+    
+    return result;
+}
+
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
@@ -62,8 +82,12 @@ bool load(const char *dictionary)
 // Returns number of words in dictionary if loaded else 0 if not yet loaded
 unsigned int size(void)
 {
-    // TODO
-    return 0;
+    if (!load())
+    {
+        return 0;
+    }
+
+    return word_count(trie *root);
 }
 
 // Unloads dictionary from memory, returning true if successful else false
