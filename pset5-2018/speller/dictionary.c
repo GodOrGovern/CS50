@@ -13,6 +13,8 @@ typedef struct trie
 }
 trie;
 
+trie *root;
+
 trie *get_node(void)
 {
     trie *node = (trie *)malloc(sizeof(trie));
@@ -26,7 +28,7 @@ trie *get_node(void)
     return node;
 }
 
-void insert(trie *root, const char *key)
+void insert(const char *key)
 {
     int length = strlen(key);
     trie *curr = root;
@@ -45,7 +47,7 @@ void insert(trie *root, const char *key)
     curr->leaf = true;
 }
 
-unsigned int word_count(trie *root)
+unsigned int word_count()
 {
     int result = 0;
  
@@ -75,7 +77,21 @@ bool check(const char *word)
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
 {
-    // TODO
+    FILE *dict = fopen(dictionary, "r");
+    if (dict == NULL)
+    {
+        fprintf(stderr, "Could not open %s\n", dictionary);
+        return false;
+    }
+
+    root = (trie *)malloc(sizeof(trie));
+
+    char buf[45];
+    while((buf = fgets(buf, 45, dict)) != EOF)
+    {
+        insert(buf);
+    }
+
     return false;
 }
 
@@ -87,7 +103,7 @@ unsigned int size(void)
         return 0;
     }
 
-    return word_count(trie *root);
+    return word_count();
 }
 
 // Unloads dictionary from memory, returning true if successful else false
