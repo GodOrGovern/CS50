@@ -67,10 +67,20 @@ unsigned int word_count()
     return result;
 }
 
+void lowercase(char *word)
+{
+    int i = 0;
+    while (word[i])
+    {
+        putchar(tolower(word[i]));
+        i++;
+    }
+}
+
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
-    // TODO
+    char *low_word = lowercase(word);
     return false;
 }
 
