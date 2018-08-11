@@ -81,7 +81,23 @@ void lowercase(char *word)
 bool check(const char *word)
 {
     char *low_word = lowercase(word);
-    return false;
+
+    trie *curr = root;
+
+    int length = strlen(low_word);
+    for (int level = 0; level < length; level++)
+    {
+        int index = CHAR_INDEX(word[level]);
+
+        if (!curr->children[index])
+        {
+            return false;
+        }
+
+        curr = curr->children[index];
+    }
+
+    return (curr != NULL && curr->leaf);
 }
 
 // Loads dictionary into memory, returning true if successful else false
