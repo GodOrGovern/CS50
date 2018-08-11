@@ -1,8 +1,10 @@
 #include <stdbool.h>
+#include <string.h>
 
 #include "dictionary.h"
 
 #define ALPHA_LENGTH 27
+#define CHAR_INDEX(c) ((int)(c - 'a'))
 
 typedef struct trie
 {
@@ -11,7 +13,7 @@ typedef struct trie
 }
 trie;
 
-trie get_node()
+trie *get_node(void)
 {
     trie *node = (trie *)malloc(sizeof(trie));
     node->leaf = false;
@@ -22,6 +24,25 @@ trie get_node()
     }
 
     return node;
+}
+
+void insert(trie *root, const char *key)
+{
+    int length = strlen(key);
+    trie *curr = root;
+
+    for (int level = 0; level < length; level++)
+    {
+        int index = CHAR_INDEX(key[level]);
+        if (!curr->children[index])
+        {
+            curr->children[index] = get_node();
+        }
+
+        curr = curr->children[index];
+    }
+
+    curr->leaf = true;
 }
 
 // Returns true if word is in dictionary else false
