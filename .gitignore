@@ -1,6 +1,7 @@
 # folders
 .c9
 __pycache__
+.ipynb_checkpoints
 
 # files
 .eslintrc
