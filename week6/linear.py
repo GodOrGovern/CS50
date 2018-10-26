@@ -10,7 +10,8 @@ book = [
     "Muller",
     "Seltzer",
     "Shieber",
-    "Smith"]
+    "Smith"
+]
 
 name = get_string("Name: ")
 if name in book:
