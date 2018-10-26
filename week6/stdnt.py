@@ -1,5 +1,5 @@
 from cs50 import get_string
-from student import Student
+from stdnt_struct import Student
 
 students = []
 
