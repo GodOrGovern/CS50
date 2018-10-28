@@ -17,21 +17,21 @@ int main(void)
     }
     while (height < 1 || height > 23);
 
-    for (int row = 1; row - 1 < height; row++)
+    for (int row = 0; row < height; row++)
     {
-        for (int i = 1; i - 1 < height - row; i++)
+        for (int i = 1; i < height - row; i++)
         {
             printf(" ");
         }
 
-        for (int j = 1; j - 1 < row; j++)
+        for (int j = 0; j < row + 1; j++)
         {
             printf("#");
         }
 
         printf("  ");
 
-        for (int k = 1; k - 1 < row; k++)
+        for (int k = 0; k < row + 1; k++)
         {
             printf("#");
         }
