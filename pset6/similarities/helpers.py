@@ -2,6 +2,7 @@ from nltk.tokenize import sent_tokenize
 
 # Helpful source: https://stackoverflow.com/questions/19007383/compare-two-different-files-line-by-line-in-python
 
+
 def lines(a, b):
     """Return lines in both a and b"""
     a = set(a.split('\n'))
