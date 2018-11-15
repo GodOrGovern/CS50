@@ -1,1 +1,27 @@
-<!-- TODO -->
+<div class="col">
+  <table class="table table-condensed table-sm table-bordered">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      {% for letter in s2 %}
+        <th scope="col">{{ letter }}</th>
+      {% endfor %}  
+      </tr>
+    </thead>
+    <tbody>
+    {% for row in matrix %}
+      <tr>
+      {% if loop.index != 1 %}
+        <th scope="row">{{ s1[loop.index0 - 1] }}</th>
+      {% else %}
+        <th></th>
+      {% endif %}
+      {% for item in row %}
+        <td>{{ item[0] }}</td>
+      {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
