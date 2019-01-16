@@ -1,19 +1,19 @@
 body
 {
-    text-align: center;
+  text-align: center;
 }
 
 header
 {
-    font-size: large;
+  font-size: large;
 }
 
 main
 {
-    font-size: medium;
+  font-size: medium;
 }
 
 footer
 {
-    font-size: small;
+  font-size: small;
 }
