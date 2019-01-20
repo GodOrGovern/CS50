@@ -30,17 +30,19 @@ def index():
 @app.route("/articles")
 def articles():
     """Look up articles for geo"""
-
-    # TODO
-    return jsonify([])
+    geo = request.args.get("geo")
+    return jsonify(lookup(geo)) 
 
 
 @app.route("/search")
 def search():
     """Search for places that match query"""
-
-    # TODO
-    return jsonify([])
+    q = request.args.get("q") + "%"
+    places = db.execute("SELECT * FROM places WHERE postal_code LIKE :q", q=q)
+    places += db.execute("SELECT * FROM places WHERE place_name LIKE :q", q=q)
+    places += db.execute("SELECT * FROM places WHERE admin_name2 LIKE :q", q=q)
+    places += db.execute("SELECT * FROM places WHERE admin_name1 LIKE :q", q=q)
+    return jsonify(places)
 
 
 @app.route("/update")
