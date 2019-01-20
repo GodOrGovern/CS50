@@ -19,7 +19,7 @@ $(document).ready(function() {
             featureType: "all",
             elementType: "labels",
             stylers: [
-                {visibility: "off"}
+                { visibility: "off" }
             ]
         },
 
@@ -28,7 +28,7 @@ $(document).ready(function() {
             featureType: "road",
             elementType: "geometry",
             stylers: [
-                {visibility: "off"}
+                { visibility: "off" }
             ]
         }
 
@@ -37,7 +37,7 @@ $(document).ready(function() {
     // Options for map
     // https://developers.google.com/maps/documentation/javascript/reference#MapOptions
     let options = {
-        center: {lat: 37.4236, lng: -122.1619}, // Stanford, California
+        center: { lat: 37.4236, lng: -122.1619 }, // Stanford, California
         disableDefaultUI: true,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         maxZoom: 14,
@@ -60,22 +60,38 @@ $(document).ready(function() {
 
 
 // Add marker for place to map
-function addMarker(place)
-{
-    // TODO
+function addMarker(place) {
+    let marker = new google.maps.Marker({
+        position: { lat: place.latitude, lng: place.longitude }, 
+    });
+
+    let parameters = { geo: place.postal_code };
+    let content = "<ul>";
+    $.getJSON("/articles", parameters, function(data, textStatus, jqXHR) {
+        for (let i = 0; i < 5; i++) {
+            content += `<li><a href=${data[i].link}>${data[i].title}</a></li>`;
+            console.log(content);
+        };
+        content += "</ul>";
+    });
+
+    marker.addListener('click', function() {
+        showInfo(marker, content);
+    });
+
+    marker.setMap(map);
+    markers.push(marker);
 }
 
 
 // Configure application
-function configure()
-{
+function configure() {
     // Update UI after map has been dragged
     google.maps.event.addListener(map, "dragend", function() {
 
         // If info window isn't open
         // http://stackoverflow.com/a/12410385
-        if (!info.getMap || !info.getMap())
-        {
+        if (!info.getMap || !info.getMap()) {
             update();
         }
     });
@@ -89,16 +105,13 @@ function configure()
     $("#q").typeahead({
         highlight: false,
         minLength: 1
-    },
-    {
+    }, {
         display: function(suggestion) { return null; },
         limit: 10,
         source: search,
         templates: {
             suggestion: Handlebars.compile(
-                "<div>" +
-                "TODO" +
-                "</div>"
+                "<div>{{place_name}}, {{admin_name1}}, {{postal_code}}</div>"
             )
         }
     });
@@ -107,7 +120,7 @@ function configure()
     $("#q").on("typeahead:selected", function(eventObject, suggestion, name) {
 
         // Set map's center
-        map.setCenter({lat: parseFloat(suggestion.latitude), lng: parseFloat(suggestion.longitude)});
+        map.setCenter({ lat: parseFloat(suggestion.latitude), lng: parseFloat(suggestion.longitude) });
 
         // Update UI
         update();
@@ -135,21 +148,23 @@ function configure()
 
 
 // Remove markers from map
-function removeMarkers()
-{
-    // TODO
+function removeMarkers() {
+    let length = markers.length;
+    for (let i = 0; i < length; i++) {
+        markers[i].setMap(null);
+    }
+    markers.length = 0;
 }
 
 
 // Search database for typeahead's suggestions
-function search(query, syncResults, asyncResults)
-{
+function search(query, syncResults, asyncResults) {
     // Get places matching query (asynchronously)
     let parameters = {
         q: query
     };
     $.getJSON("/search", parameters, function(data, textStatus, jqXHR) {
-     
+      
         // Call typeahead's callback with search results (i.e., places)
         asyncResults(data);
     });
@@ -157,17 +172,13 @@ function search(query, syncResults, asyncResults)
 
 
 // Show info window at marker with content
-function showInfo(marker, content)
-{
+function showInfo(marker, content) {
     // Start div
     let div = "<div id='info'>";
-    if (typeof(content) == "undefined")
-    {
+    if (typeof(content) == "undefined") {
         // http://www.ajaxload.info/
         div += "<img alt='loading' src='/static/ajax-loader.gif'/>";
-    }
-    else
-    {
+    } else {
         div += content;
     }
 
@@ -183,8 +194,7 @@ function showInfo(marker, content)
 
 
 // Update UI's markers
-function update() 
-{
+function update() {
     // Get map's bounds
     let bounds = map.getBounds();
     let ne = bounds.getNorthEast();
@@ -198,13 +208,12 @@ function update()
     };
     $.getJSON("/update", parameters, function(data, textStatus, jqXHR) {
 
-       // Remove old markers from map
-       removeMarkers();
+        // Remove old markers from map
+        removeMarkers();
 
-       // Add new markers to map
-       for (let i = 0; i < data.length; i++)
-       {
-           addMarker(data[i]);
-       }
+        // Add new markers to map
+        for (let i = 0; i < data.length; i++) {
+            addMarker(data[i]);
+        }
     });
 };
