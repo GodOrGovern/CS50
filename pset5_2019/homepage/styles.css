@@ -1,0 +1,32 @@
+body {
+    background-color: grey;
+}
+
+.albumCover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.albumName {
+    font-style: italic;
+}
+p.albumName {
+    color: black;
+    font-size: 150%;
+    text-align: center;
+    text-shadow: 2px 2px 4px darkgrey;
+}
+
+#header > a {
+    color: #dddddd;
+}
+h1.albumName, h1.albumYear {
+    font-size: 300%;
+    color: black;
+}
+.track {
+    font-size: 200%;
+    color: black;
+}
+.side > p {
+    font-size: 100%;
+    color: black;
+}
