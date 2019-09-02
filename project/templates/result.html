@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/static/style.css" rel="stylesheet">
+  </head>
+  <body class="h-100 bg-dark">
+    <div class="w-50 h-100 container">
+      <a href="/" class="m-4">Return</a>
+      <h1 class="text-center">Result</h1>
+      <table id="grid">
+        {% for row in grid %}
+          {% if loop.index0 % 3 == 0 -%}
+            <tr class="top">
+          {% elif loop.index0 % 3 == 1 -%}
+            <tr>
+          {% else -%}
+            <tr class="bottom">
+          {% endif %}
+            {% for col in row %}
+              {% if loop.index0 % 3 == 0 %}
+                <td><input value={{ col }} class="cell left" type="text" readonly></td>
+              {% elif loop.index0 % 3 == 1 %}
+                <td><input value={{ col }} class="cell" type="text" readonly></td>
+              {% else %}
+                <td><input value={{ col }} class="cell right" type="text" readonly></td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+table {
+  margin: auto;
+}
+td {
+  border: 2px solid LightGrey;
+  vertical-align: middle;
+}
+td, input {
+  padding: 0px;
+  text-align: center;
+}
+h1, input {
+  color: LightGrey;
+}
+input {
+  border: 0;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  background-color: transparent;
+}
+.left {
+  border-left: 2px solid LightGrey;
+}
+.right {
+  border-right: 2px solid LightGrey;
+}
+.bottom > td > input {
+  border-bottom: 2px solid LightGrey;
+}
+.top > td > input {
+  border-top: 2px solid LightGrey;
+}

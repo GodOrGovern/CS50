@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sudoku Solver</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/static/style.css" rel="stylesheet">
+  </head>
+  <body class="bg-dark">
+    <div class="container text-center">
+      <form autocomplete="off" action="/submit" method="post">
+        <h1 class="m-2">Sudoku Solver</h1>
+        <table class="mb-3" id="grid">
+          {% for row in range(9) %}
+            {% if row % 3 == 0 %}
+              <tr class="top">
+            {% elif row % 3 == 1 %}
+              <tr>
+            {% else %}
+              <tr class="bottom">
+            {% endif %}
+              {% for col in range(9) %}
+                {% if col % 3 == 0 %}
+                  <td><input name="cell" class="cell left" type="text" maxlength="1"></td>
+                {% elif col % 3 == 1 %}
+                  <td><input name="cell" class="cell" type="text" maxlength="1"></td>
+                {% else %}
+                  <td><input name="cell" class="cell right" type="text" maxlength="1"></td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </table>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
